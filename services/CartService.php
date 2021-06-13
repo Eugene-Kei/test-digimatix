@@ -26,6 +26,9 @@ class CartService
         private Session $session,
         private Product $product,
     ) {
+        if (!$this->session->isActive) {
+            $this->session->open();
+        }
     }
 
     /**

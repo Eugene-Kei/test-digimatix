@@ -18,6 +18,10 @@ class CartWidget extends Widget
      */
     public function run()
     {
+
+        if (!Yii::$app->session->isActive) {
+            Yii::$app->session->open();
+        }
         $sessionId = Yii::$app->session->getId();
         $count = Cart::find()->where(['session_id' => $sessionId])->count();
 
