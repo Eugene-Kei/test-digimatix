@@ -1,0 +1,31 @@
+version: '3'
+services:
+  php:
+    image: yiisoftware/yii2-php:8.0-apache
+    container_name: 'test-digimatix-yii2'
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app:delegated
+    ports:
+      - '8000:80'
+    networks:
+      - test-digimatix
+    depends_on:
+      - mysql
+  mysql:
+    image: 'mysql:8.0'
+    container_name: 'test-digimatix-mysql'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root-password'
+      MYSQL_DATABASE: 'test-digimatix'
+      MYSQL_USER: 'test-digimatix-user'
+      MYSQL_PASSWORD: 'test-digimatix-password'
+    volumes:
+      - "./docker/mysql:/var/lib/mysql"
+    networks:
+      - test-digimatix
+networks:
+  test-digimatix:
+    driver: bridge
